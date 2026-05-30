@@ -1,0 +1,59 @@
+{
+  "name": "Esim",
+  "type": "object",
+  "properties": {
+    "iccid": {
+      "type": "string",
+      "description": "ICCID number"
+    },
+    "provider": {
+      "type": "string",
+      "description": "eSIM provider"
+    },
+    "planId": {
+      "type": "string"
+    },
+    "planName": {
+      "type": "string"
+    },
+    "qrCodeUrl": {
+      "type": "string"
+    },
+    "activationCode": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "available",
+        "assigned",
+        "activated",
+        "expired",
+        "disabled"
+      ],
+      "default": "available"
+    },
+    "assignedUserId": {
+      "type": "string"
+    },
+    "assignedUserName": {
+      "type": "string"
+    },
+    "assignedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "activatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "iccid",
+    "provider"
+  ]
+}

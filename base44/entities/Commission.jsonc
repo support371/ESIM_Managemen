@@ -1,0 +1,36 @@
+{
+  "name": "Commission",
+  "type": "object",
+  "properties": {
+    "agentId": {
+      "type": "string"
+    },
+    "agentName": {
+      "type": "string"
+    },
+    "orderId": {
+      "type": "string"
+    },
+    "customerName": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "paid",
+        "rejected"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "agentId",
+    "orderId",
+    "amount"
+  ]
+}

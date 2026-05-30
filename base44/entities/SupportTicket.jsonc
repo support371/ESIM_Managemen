@@ -1,0 +1,65 @@
+{
+  "name": "SupportTicket",
+  "type": "object",
+  "properties": {
+    "ticketNumber": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "userName": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "activation",
+        "billing",
+        "technical",
+        "account",
+        "general",
+        "other"
+      ],
+      "default": "general"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "in_progress",
+        "waiting",
+        "resolved",
+        "closed"
+      ],
+      "default": "open"
+    },
+    "assignedTo": {
+      "type": "string"
+    },
+    "response": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "userId",
+    "subject",
+    "message"
+  ]
+}

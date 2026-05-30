@@ -1,0 +1,34 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "customer",
+        "agent",
+        "admin",
+        "super_admin"
+      ],
+      "default": "customer"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "suspended"
+      ],
+      "default": "active"
+    },
+    "company": {
+      "type": "string"
+    },
+    "assignedAgentId": {
+      "type": "string"
+    }
+  }
+}

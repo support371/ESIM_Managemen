@@ -1,0 +1,53 @@
+{
+  "name": "Activation",
+  "type": "object",
+  "properties": {
+    "esimId": {
+      "type": "string"
+    },
+    "esimIccid": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "userName": {
+      "type": "string"
+    },
+    "planName": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "suspended",
+        "expired",
+        "deactivated"
+      ],
+      "default": "pending"
+    },
+    "activationCode": {
+      "type": "string"
+    },
+    "qrCodeUrl": {
+      "type": "string"
+    },
+    "activatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "esimId",
+    "userId"
+  ]
+}
