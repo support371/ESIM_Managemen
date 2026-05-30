@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Globe, Zap, Shield, Headphones, Wifi, ArrowRight, CheckCircle, Star } from 'lucide-react';
+import { Globe, Zap, Shield, Headphones, Wifi, ArrowRight, CheckCircle } from 'lucide-react';
 import { useContactSettings } from '@/hooks/useContactSettings';
 
 const features = [

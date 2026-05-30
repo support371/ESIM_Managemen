@@ -4,7 +4,6 @@ import { base44 } from '@/api/base44Client';
 import PageHeader from '@/components/shared/PageHeader';
 import DataTable from '@/components/shared/DataTable';
 import StatusBadge from '@/components/shared/StatusBadge';
-import { formatRole } from '@/lib/roleUtils';
 import { format } from 'date-fns';
 
 export default function Customers() {

@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { isAdmin, isSuperAdmin, isAgent, formatRole } from '@/lib/roleUtils';
 import {
-  LayoutDashboard, Globe, ShoppingCart, CreditCard, Smartphone,
-  TicketCheck, Users, Package, Settings, FileText, Activity,
-  ChevronLeft, ChevronRight, LogOut, Bell, Shield,
+  LayoutDashboard, Globe, ShoppingCart, Smartphone,
+  TicketCheck, Users, Package, Settings, FileText,
+  ChevronLeft, ChevronRight, LogOut, Shield,
   BarChart3, UserCog, Wallet, Zap, Menu, X
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';

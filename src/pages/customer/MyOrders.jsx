@@ -5,7 +5,6 @@ import { useAuth } from '@/lib/AuthContext';
 import PageHeader from '@/components/shared/PageHeader';
 import DataTable from '@/components/shared/DataTable';
 import StatusBadge from '@/components/shared/StatusBadge';
-import { ClipboardList } from 'lucide-react';
 import { format } from 'date-fns';
 
 const REQUEST_STATUS_LABELS = {

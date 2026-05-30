@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { formatRole } from '@/lib/roleUtils';
 import StatusBadge from '@/components/shared/StatusBadge';
 import { User, Mail, Phone, Building } from 'lucide-react';
 
