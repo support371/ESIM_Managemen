@@ -36,7 +36,7 @@ export default function EsimRequests() {
 
   const updateRequest = useMutation({
     mutationFn: async ({ id, status, orderId, order }) => {
-      await base44.entities.Order.update(id, { status });
+      await base44.entities.Order.update(id, { status, adminNote });
 
       // Create audit log
       await base44.entities.AuditLog.create({
