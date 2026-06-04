@@ -1,0 +1,73 @@
+{
+  "name": "Plan",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Plan name"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country or region coverage"
+    },
+    "region": {
+      "type": "string",
+      "enum": [
+        "North America",
+        "Europe",
+        "Asia",
+        "Middle East",
+        "Africa",
+        "South America",
+        "Global"
+      ],
+      "description": "Geographic region"
+    },
+    "dataAmount": {
+      "type": "string",
+      "description": "Data allowance (e.g. 5GB, 10GB, Unlimited)"
+    },
+    "validityDays": {
+      "type": "number",
+      "description": "Validity in days"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "description": {
+      "type": "string",
+      "description": "Plan description"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Plan features list"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "archived"
+      ],
+      "default": "active"
+    },
+    "popular": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "price",
+    "dataAmount",
+    "validityDays"
+  ]
+}

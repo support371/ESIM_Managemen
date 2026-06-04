@@ -1,0 +1,56 @@
+{
+  "name": "Payment",
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "userName": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "paymentMethod": {
+      "type": "string",
+      "enum": [
+        "credit_card",
+        "debit_card",
+        "paypal",
+        "bank_transfer",
+        "crypto",
+        "other"
+      ],
+      "default": "credit_card"
+    },
+    "transactionReference": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "failed",
+        "refunded"
+      ],
+      "default": "pending"
+    },
+    "paidAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "orderId",
+    "userId",
+    "amount"
+  ]
+}

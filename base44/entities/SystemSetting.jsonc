@@ -1,0 +1,34 @@
+{
+  "name": "SystemSetting",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "general",
+        "billing",
+        "notification",
+        "security",
+        "integration"
+      ],
+      "default": "general"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "key",
+    "value",
+    "label"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "orderNumber": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "userName": {
+      "type": "string"
+    },
+    "planId": {
+      "type": "string"
+    },
+    "planName": {
+      "type": "string"
+    },
+    "esimId": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number",
+      "default": 0
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending_review",
+        "approved",
+        "rejected",
+        "assigned",
+        "activated",
+        "cancelled",
+        "pending",
+        "processing",
+        "completed",
+        "refunded"
+      ],
+      "default": "pending_review"
+    },
+    "paymentStatus": {
+      "type": "string",
+      "enum": [
+        "not_required",
+        "unpaid",
+        "paid",
+        "refunded",
+        "failed"
+      ],
+      "default": "not_required"
+    },
+    "adminNote": {
+      "type": "string",
+      "description": "Admin note or reason for approval/rejection"
+    }
+  },
+  "required": [
+    "orderNumber",
+    "userId",
+    "amount"
+  ]
+}
