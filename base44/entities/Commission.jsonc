@@ -5,6 +5,10 @@
     "agentId": {
       "type": "string"
     },
+    "agentEmail": {
+      "type": "string",
+      "format": "email"
+    },
     "agentName": {
       "type": "string"
     },
@@ -27,6 +31,28 @@
       ],
       "default": "pending"
     }
+  },
+  "rls": {
+    "create": {
+      "$or": [
+        { "user_condition": { "role": "admin" } },
+        { "user_condition": { "role": "super_admin" } }
+      ]
+    },
+    "read": {
+      "$or": [
+        { "data.agentEmail": "{{user.email}}" },
+        { "user_condition": { "role": "admin" } },
+        { "user_condition": { "role": "super_admin" } }
+      ]
+    },
+    "update": {
+      "$or": [
+        { "user_condition": { "role": "admin" } },
+        { "user_condition": { "role": "super_admin" } }
+      ]
+    },
+    "delete": { "user_condition": { "role": "super_admin" } }
   },
   "required": [
     "agentId",

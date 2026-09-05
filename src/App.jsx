@@ -6,6 +6,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import RoleRoute from '@/components/RoleRoute';
 
 // Auth pages
 import Login from '@/pages/Login';
@@ -111,25 +112,31 @@ const AuthenticatedApp = () => {
           <Route path="/profile" element={<Profile />} />
 
           {/* Agent pages */}
-          <Route path="/agent/customers" element={<AgentCustomers />} />
-          <Route path="/agent/orders" element={<AgentOrders />} />
-          <Route path="/agent/esims" element={<AgentEsims />} />
-          <Route path="/agent/tickets" element={<AgentTickets />} />
-          <Route path="/agent/commissions" element={<AgentCommissions />} />
+          <Route element={<RoleRoute minRole="agent" />}>
+            <Route path="/agent/customers" element={<AgentCustomers />} />
+            <Route path="/agent/orders" element={<AgentOrders />} />
+            <Route path="/agent/esims" element={<AgentEsims />} />
+            <Route path="/agent/tickets" element={<AgentTickets />} />
+            <Route path="/agent/commissions" element={<AgentCommissions />} />
+          </Route>
 
           {/* Admin pages */}
-          <Route path="/admin/customers" element={<Customers />} />
-          <Route path="/admin/agents" element={<Agents />} />
-          <Route path="/admin/esims" element={<EsimInventory />} />
-          <Route path="/admin/plans" element={<Plans />} />
-          <Route path="/admin/orders" element={<Orders />} />
-          <Route path="/admin/payments" element={<Payments />} />
-          <Route path="/admin/activations" element={<Activations />} />
-          <Route path="/admin/tickets" element={<Tickets />} />
-          <Route path="/admin/reports" element={<Reports />} />
-          <Route path="/admin/audit-logs" element={<AuditLogs />} />
-          <Route path="/admin/settings" element={<Settings />} />
-          <Route path="/admin/users" element={<UserManagement />} />
+          <Route element={<RoleRoute minRole="admin" />}>
+            <Route path="/admin/customers" element={<Customers />} />
+            <Route path="/admin/agents" element={<Agents />} />
+            <Route path="/admin/esims" element={<EsimInventory />} />
+            <Route path="/admin/plans" element={<Plans />} />
+            <Route path="/admin/orders" element={<Orders />} />
+            <Route path="/admin/payments" element={<Payments />} />
+            <Route path="/admin/activations" element={<Activations />} />
+            <Route path="/admin/tickets" element={<Tickets />} />
+            <Route path="/admin/reports" element={<Reports />} />
+            <Route path="/admin/audit-logs" element={<AuditLogs />} />
+            <Route path="/admin/settings" element={<Settings />} />
+          </Route>
+          <Route element={<RoleRoute allowedRoles={['super_admin']} />}>
+            <Route path="/admin/users" element={<UserManagement />} />
+          </Route>
         </Route>
       </Route>
 

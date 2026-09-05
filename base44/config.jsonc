@@ -1,5 +1,6 @@
 {
-  "name": "Untitled",
+  "name": "GEM eSIM",
+  "description": "Approval-based eSIM request, inventory assignment, activation, and support portal",
   "site": {
     "installCommand": "npm install",
     "buildCommand": "npm run build",

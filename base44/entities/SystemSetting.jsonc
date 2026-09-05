@@ -26,6 +26,17 @@
       "type": "string"
     }
   },
+  "rls": {
+    "create": { "user_condition": { "role": "super_admin" } },
+    "read": true,
+    "update": {
+      "$or": [
+        { "user_condition": { "role": "admin" } },
+        { "user_condition": { "role": "super_admin" } }
+      ]
+    },
+    "delete": { "user_condition": { "role": "super_admin" } }
+  },
   "required": [
     "key",
     "value",

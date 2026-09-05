@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { useAuth } from '@/lib/AuthContext';
 import PageHeader from '@/components/shared/PageHeader';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,7 +12,6 @@ import { useToast } from '@/components/ui/use-toast';
 import { CheckCircle, Star, Search, Gift, ClipboardCheck } from 'lucide-react';
 
 export default function BrowsePlans() {
-  const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
@@ -26,21 +24,18 @@ export default function BrowsePlans() {
   });
 
   const submitRequest = useMutation({
-    mutationFn: (plan) => base44.entities.Order.create({
-      orderNumber: `REQ-${Date.now().toString(36).toUpperCase()}`,
-      userId: user.id,
-      userName: user.full_name,
-      planId: plan.id,
-      planName: plan.name,
-      amount: 0,
-      currency: 'USD',
-      status: 'pending_review',
-      paymentStatus: 'not_required',
-    }),
+    mutationFn: (plan) => base44.functions.invoke('request-esim', { planId: plan.id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['my-orders'] });
       toast({ title: 'Request Submitted!', description: 'Your free eSIM request has been submitted and is pending approval by our team.' });
       setRequestDialog(null);
+    },
+    onError: (error) => {
+      toast({
+        variant: 'destructive',
+        title: 'Request not submitted',
+        description: error?.response?.data?.error || error?.message || 'Please try again.',
+      });
     },
   });
 

@@ -16,7 +16,7 @@ export function useContactSettings() {
 
   return {
     isLoading,
-    businessName: get('business_name', 'eSIM Pro'),
+    businessName: get('business_name', 'GEM eSIM'),
     supportEmail: get('support_email', 'support@esimpro.com'),
     adminEmail: get('admin_email', 'admin@yourdomain.com'),
     supportPhone: get('support_phone', '+1 (888) 000-0000'),

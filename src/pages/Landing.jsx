@@ -6,17 +6,17 @@ import { Globe, Zap, Shield, Headphones, Wifi, ArrowRight, CheckCircle } from 'l
 import { useContactSettings } from '@/hooks/useContactSettings';
 
 const features = [
-  { icon: Globe, title: 'Global Coverage', desc: 'Stay connected in 190+ countries with our worldwide eSIM plans.' },
-  { icon: Zap, title: 'Instant Activation', desc: 'Get online in minutes — no physical SIM card needed.' },
-  { icon: Shield, title: 'Secure & Reliable', desc: 'Enterprise-grade security with 99.9% network uptime.' },
-  { icon: Headphones, title: '24/7 Support', desc: 'Our dedicated team is always here to help you.' },
+  { icon: Globe, title: 'Plan Catalog', desc: 'Browse regional and global plans currently listed by our team.' },
+  { icon: Zap, title: 'Managed Activation', desc: 'Receive provider-issued installation details after approval and inventory assignment.' },
+  { icon: Shield, title: 'Controlled Delivery', desc: 'Account roles and approval checks protect eSIM assignment details.' },
+  { icon: Headphones, title: 'Support Portal', desc: 'Open and track support tickets from your dashboard.' },
 ];
 
 const highlights = [
   'No physical SIM required',
   'Works on all eSIM devices',
   'Flexible data plans',
-  'Instant QR code delivery',
+  'Provider-issued QR delivery',
   'Manage from anywhere',
   'Multi-device support',
 ];
@@ -33,7 +33,7 @@ export default function Landing() {
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Globe className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg">eSIM Pro</span>
+            <span className="font-bold text-lg">GEM eSIM</span>
           </Link>
           <div className="flex items-center gap-3">
             <Link to="/explore-plans">
@@ -66,7 +66,7 @@ export default function Landing() {
               <span className="text-primary">Everywhere You Go</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed">
-              Free eSIM management platform. Request, activate, and manage your digital SIM cards with no payment required — just submit a request and our team handles the rest.
+              Approval-based eSIM management. Submit a request, then receive installation details when a matching provider-issued eSIM is available and assigned.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link to="/register">
@@ -86,10 +86,10 @@ export default function Landing() {
       <section className="border-y bg-card">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            ['190+', 'Countries'],
-            ['500K+', 'Active Users'],
-            ['99.9%', 'Uptime'],
-            ['24/7', 'Support'],
+            ['8', 'Plan Options'],
+            ['3', 'Managed Roles'],
+            ['$0', 'Checkout Today'],
+            ['1', 'Approval Workflow'],
           ].map(([val, label]) => (
             <div key={label}>
               <p className="text-3xl font-bold text-primary">{val}</p>
@@ -102,7 +102,7 @@ export default function Landing() {
       {/* Features */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-3">Why Choose eSIM Pro?</h2>
+          <h2 className="text-3xl font-bold mb-3">Why Choose GEM eSIM?</h2>
           <p className="text-muted-foreground max-w-lg mx-auto">Everything you need to manage your connectivity in one platform.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -147,7 +147,7 @@ export default function Landing() {
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20 text-center">
         <h2 className="text-3xl font-bold mb-3">Ready to Get Connected — For Free?</h2>
-        <p className="text-muted-foreground mb-8 max-w-md mx-auto">Join our free eSIM service. Sign up, browse plans, submit a request, and get your eSIM approved — no payment needed.</p>
+        <p className="text-muted-foreground mb-8 max-w-md mx-auto">Sign up, browse the catalog, and submit a request. Approval and delivery depend on matching provider inventory.</p>
         <Link to="/register">
           <Button size="lg" className="gap-2 text-base px-10">
             Request Your Free eSIM <ArrowRight className="w-4 h-4" />

@@ -5,6 +5,10 @@
     "userId": {
       "type": "string"
     },
+    "userEmail": {
+      "type": "string",
+      "format": "email"
+    },
     "title": {
       "type": "string"
     },
@@ -25,6 +29,29 @@
       "type": "boolean",
       "default": false
     }
+  },
+  "rls": {
+    "create": {
+      "$or": [
+        { "user_condition": { "role": "admin" } },
+        { "user_condition": { "role": "super_admin" } }
+      ]
+    },
+    "read": {
+      "$or": [
+        { "data.userEmail": "{{user.email}}" },
+        { "data.userId": "{{user.id}}" },
+        { "user_condition": { "role": "admin" } },
+        { "user_condition": { "role": "super_admin" } }
+      ]
+    },
+    "update": {
+      "$or": [
+        { "data.userEmail": "{{user.email}}" },
+        { "data.userId": "{{user.id}}" }
+      ]
+    },
+    "delete": { "user_condition": { "role": "super_admin" } }
   },
   "required": [
     "userId",

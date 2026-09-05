@@ -21,7 +21,7 @@ export default function ExplorePlans() {
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Globe className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg">eSIM Pro</span>
+            <span className="font-bold text-lg">GEM eSIM</span>
           </Link>
           <div className="flex items-center gap-3">
             <Link to="/login"><Button variant="outline" size="sm">Sign In</Button></Link>
@@ -36,14 +36,14 @@ export default function ExplorePlans() {
             <Gift className="w-3.5 h-3.5 mr-1" /> Free Service — No Payment Required
           </Badge>
           <h1 className="text-3xl sm:text-4xl font-bold mb-3">Free eSIM Plans</h1>
-          <p className="text-muted-foreground max-w-lg mx-auto">Browse our available eSIM plans. All plans are completely free — just sign up, submit a request, and we'll handle the rest.</p>
+          <p className="text-muted-foreground max-w-lg mx-auto">Browse the current plan catalog. Requests are reviewed manually and fulfilled only when matching provider-issued inventory is available.</p>
         </div>
 
         <div className="flex items-center gap-3 p-4 rounded-lg bg-emerald-50 border border-emerald-200 mb-10 max-w-2xl mx-auto">
           <ClipboardCheck className="w-5 h-5 text-emerald-600 flex-shrink-0" />
           <div>
             <p className="text-sm font-semibold text-emerald-800">How it works</p>
-            <p className="text-xs text-emerald-700">Sign up → Browse plans → Submit a free request → Our team approves → eSIM assigned to you</p>
+            <p className="text-xs text-emerald-700">Sign up → Browse plans → Submit a request → Admin review → Matching inventory assigned → Install from your dashboard</p>
           </div>
         </div>
 

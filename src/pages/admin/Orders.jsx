@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { useAuth } from '@/lib/AuthContext';
 import PageHeader from '@/components/shared/PageHeader';
 import DataTable from '@/components/shared/DataTable';
 import StatusBadge from '@/components/shared/StatusBadge';
@@ -14,15 +13,13 @@ import { useToast } from '@/components/ui/use-toast';
 import { CheckCircle, XCircle, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 
-const REQUEST_STATUSES = ['pending_review', 'approved', 'rejected', 'assigned', 'activated', 'cancelled'];
-
 export default function EsimRequests() {
-  const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selected, setSelected] = useState(null);
   const [newStatus, setNewStatus] = useState('');
   const [adminNote, setAdminNote] = useState('');
+  const [selectedEsimId, setSelectedEsimId] = useState('');
 
   const { data: orders = [] } = useQuery({
     queryKey: ['all-orders'],
@@ -35,25 +32,26 @@ export default function EsimRequests() {
   });
 
   const updateRequest = useMutation({
-    mutationFn: async ({ id, status, orderId, order }) => {
-      await base44.entities.Order.update(id, { status, adminNote });
-
-      // Create audit log
-      await base44.entities.AuditLog.create({
-        userId: user?.id || '',
-        userName: user?.full_name || 'Admin',
-        action: status === 'approved' ? 'APPROVE' : status === 'rejected' ? 'REJECT' : 'UPDATE',
-        entityType: 'Request',
-        entityId: id,
-        description: `${status === 'approved' ? 'Approved' : status === 'rejected' ? 'Rejected' : 'Updated'} eSIM request ${order?.orderNumber} for ${order?.userName}${adminNote ? ': ' + adminNote : ''}`,
-      });
-    },
+    mutationFn: ({ id, status }) => base44.functions.invoke('manage-esim-request', {
+      orderId: id,
+      action: status === 'approved' ? 'approve' : status === 'rejected' ? 'reject' : 'assign',
+      esimId: status === 'assigned' ? selectedEsimId : undefined,
+      adminNote,
+    }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['all-orders'] });
+      queryClient.invalidateQueries({ queryKey: ['available-esims'] });
+      queryClient.invalidateQueries({ queryKey: ['all-activations'] });
       setSelected(null);
       setAdminNote('');
+      setSelectedEsimId('');
       toast({ title: 'Request updated', description: 'The eSIM request status has been updated.' });
     },
+    onError: (error) => toast({
+      variant: 'destructive',
+      title: 'Request was not updated',
+      description: error?.response?.data?.error || error?.message || 'Please try again.',
+    }),
   });
 
   const pendingCount = orders.filter(o => ['pending', 'pending_review', 'pending_approval', 'processing'].includes(o.status)).length;
@@ -66,7 +64,13 @@ export default function EsimRequests() {
     { key: 'created_date', label: 'Submitted', render: r => r.created_date ? format(new Date(r.created_date), 'MMM d, yyyy') : '-' },
     {
       key: 'actions', label: '', render: r => (
-        <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); setSelected(r); setNewStatus(r.status); setAdminNote(''); }}>
+        <Button variant="ghost" size="sm" onClick={(e) => {
+          e.stopPropagation();
+          setSelected(r);
+          setNewStatus(['pending', 'pending_approval', 'processing'].includes(r.status) ? 'pending_review' : r.status);
+          setAdminNote('');
+          setSelectedEsimId('');
+        }}>
           Review
         </Button>
       )
@@ -114,14 +118,41 @@ export default function EsimRequests() {
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="pending_review">Pending Review</SelectItem>
-                    <SelectItem value="approved">Approved</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
-                    <SelectItem value="assigned">eSIM Assigned</SelectItem>
-                    <SelectItem value="activated">Activated</SelectItem>
-                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                    {['pending', 'pending_review', 'pending_approval', 'processing', 'approved'].includes(selected?.status) && (
+                      <SelectItem value="approved">Approved</SelectItem>
+                    )}
+                    {['pending', 'pending_review', 'pending_approval', 'processing', 'approved'].includes(selected?.status) && (
+                      <SelectItem value="rejected">Rejected</SelectItem>
+                    )}
+                    {selected?.status === 'approved' && <SelectItem value="assigned">eSIM Assigned</SelectItem>}
+                    {!['pending', 'pending_review', 'pending_approval', 'processing', 'approved'].includes(selected?.status) && (
+                      <SelectItem value={selected?.status}>{(selected?.status || '').replace(/_/g, ' ')}</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
               </div>
+
+              {newStatus === 'assigned' && (
+                <div>
+                  <Label className="text-sm font-medium mb-2 block">Available eSIM</Label>
+                  <Select value={selectedEsimId} onValueChange={setSelectedEsimId}>
+                    <SelectTrigger><SelectValue placeholder="Select matching inventory" /></SelectTrigger>
+                    <SelectContent>
+                      {availableEsims
+                        .filter(esim => !esim.planId || !selected?.planId || esim.planId === selected.planId)
+                        .filter(esim => !esim.planName || !selected?.planName || esim.planName === selected.planName)
+                        .map(esim => (
+                          <SelectItem key={esim.id} value={esim.id}>
+                            {esim.planName || 'Unspecified plan'} · {esim.iccid}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                  {availableEsims.length === 0 && (
+                    <p className="text-xs text-amber-700 mt-2">No inventory is available. Add a genuine provider-issued eSIM before assigning this request.</p>
+                  )}
+                </div>
+              )}
 
               <div>
                 <Label className="text-sm font-medium mb-2 block">Admin Note (optional)</Label>
@@ -154,8 +185,8 @@ export default function EsimRequests() {
           <DialogFooter>
             <Button variant="outline" onClick={() => setSelected(null)}>Cancel</Button>
             <Button
-              onClick={() => updateRequest.mutate({ id: selected.id, status: newStatus, order: selected })}
-              disabled={updateRequest.isPending || newStatus === selected?.status}
+              onClick={() => updateRequest.mutate({ id: selected.id, status: newStatus })}
+              disabled={updateRequest.isPending || !['approved', 'rejected', 'assigned'].includes(newStatus) || newStatus === selected?.status || (newStatus === 'assigned' && !selectedEsimId)}
             >
               {updateRequest.isPending ? 'Saving...' : 'Save Decision'}
             </Button>

@@ -37,6 +37,7 @@ export default function Support() {
       ...data,
       ticketNumber: `TKT-${Date.now().toString(36).toUpperCase()}`,
       userId: user.id,
+      userEmail: user.email,
       userName: user.full_name,
       status: 'open',
     }),
