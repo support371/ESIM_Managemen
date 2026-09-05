@@ -24,6 +24,23 @@
       "type": "string"
     }
   },
+  "rls": {
+    "create": {
+      "$or": [
+        { "user_condition": { "role": "agent" } },
+        { "user_condition": { "role": "admin" } },
+        { "user_condition": { "role": "super_admin" } }
+      ]
+    },
+    "read": {
+      "$or": [
+        { "user_condition": { "role": "admin" } },
+        { "user_condition": { "role": "super_admin" } }
+      ]
+    },
+    "update": false,
+    "delete": { "user_condition": { "role": "super_admin" } }
+  },
   "required": [
     "action",
     "description"

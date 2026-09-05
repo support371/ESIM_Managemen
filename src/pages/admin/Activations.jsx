@@ -19,12 +19,19 @@ export default function Activations() {
   const { data: activations = [] } = useQuery({ queryKey: ['all-activations'], queryFn: () => base44.entities.Activation.list('-created_date') });
 
   const updateActivation = useMutation({
-    mutationFn: ({ id, status }) => {
-      const updates = { status };
-      if (status === 'active') updates.activatedAt = new Date().toISOString();
-      return base44.entities.Activation.update(id, updates);
+    mutationFn: ({ id, status }) => base44.functions.invoke('manage-activation', { activationId: id, status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['all-activations'] });
+      queryClient.invalidateQueries({ queryKey: ['all-esims'] });
+      queryClient.invalidateQueries({ queryKey: ['all-orders'] });
+      setSelected(null);
+      toast({ title: 'Activation updated' });
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['all-activations'] }); setSelected(null); toast({ title: 'Activation updated' }); },
+    onError: (error) => toast({
+      variant: 'destructive',
+      title: 'Activation was not updated',
+      description: error?.response?.data?.error || error?.message || 'Please try again.',
+    }),
   });
 
   const columns = [
@@ -62,7 +69,12 @@ export default function Activations() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setSelected(null)}>Cancel</Button>
-            <Button onClick={() => updateActivation.mutate({ id: selected.id, status: newStatus })}>Update</Button>
+            <Button
+              onClick={() => updateActivation.mutate({ id: selected.id, status: newStatus })}
+              disabled={updateActivation.isPending || newStatus === selected?.status}
+            >
+              {updateActivation.isPending ? 'Updating...' : 'Update'}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -1,39 +1,44 @@
-**Welcome to your Base44 project** 
+# GEM eSIM
 
-**About**
+GEM eSIM is an approval-based eSIM request and inventory management portal built with React, Vite, and Base44.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+## Current operating model
 
-This project contains everything you need to run your app locally.
+The supported release mode is a free, manually fulfilled service:
 
-**Edit the code in your local development environment**
+1. A verified customer selects a catalog plan and submits a request.
+2. An administrator approves or rejects the request.
+3. An administrator loads a genuine, unused eSIM issued by an authorized provider.
+4. The administrator assigns matching inventory to the approved request.
+5. The system creates an activation record and exposes the QR/activation code only to the assigned customer and administrators.
+6. The administrator records activation state changes; the linked eSIM and order are updated together.
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+The application does not generate carrier profiles, ICCIDs, QR codes, telephone numbers, or mobile data by itself. Real service requires inventory or an API contract from an authorized eSIM supplier.
 
-**Prerequisites:** 
+## Local development
 
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
-
-```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+```bash
+npm ci
+cp .env.example .env.local
+npm run dev
 ```
 
-Run the app: `npm run dev`
+Set the Base44 values for the target app in `.env.local`.
 
-**Publish your changes**
+## Validation
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+```bash
+npm run check
+npm audit --omit=dev
+```
 
-**Docs & Support**
+`npm run check` runs linting, TypeScript validation for TypeScript sources, Base44 release-contract tests, and the production build.
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
+## Deployment
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+The repository is linked to the Base44 app. Merge the reviewed release branch, open the linked app in Base44 Builder, verify the synchronized entity/function changes, and select **Publish** from the authenticated owner account. Do not publish until the launch gates in `docs/PRODUCTION_CHECKLIST.md` are satisfied.
+
+## Live portal
+
+- Portal: https://e-sim-pulse.base44.app/
+- Base44 app: https://app.base44.com/apps/6a199087e53dddf1be550b18
